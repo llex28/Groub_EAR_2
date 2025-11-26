@@ -119,6 +119,17 @@ public class ChildReport {
                 + "Additional Notes: " + child.notes + "\n"
                 + "---------------------------\n";
     }
+       public static void writeReportForTest(String name, String date, String behaviour,
+                                      String healthStatus, String activities, String notes,
+                                      String outputFile) {
+    ChildReport child = new ChildReport(name, date, behaviour, healthStatus, activities, notes);
+
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile, true))) {
+        bw.write(generateReportText(child));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 }
 
 
