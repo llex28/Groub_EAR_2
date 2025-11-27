@@ -24,7 +24,6 @@ public class ChildReportTest {
 
     @Test
     public void testWriteReportForTest() throws IOException {
-        // استدعاء الميثود بالقيم الثابتة
         ChildReport.writeReportForTest(
             "Ahmad Youssof",
             "2025-11-26",
