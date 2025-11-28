@@ -5,19 +5,15 @@
  */
 import java.io.IOException;
 import java.util.Scanner;
-/**
- *
- * @author la690
- */
+
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
+
         //Input and output file
-        String inputPath = "inputFile.txt";   
-        String outputPath = "output.txt"; 
+        String inputPath = "inputFile.txt";
+        String outputPath = "output.txt";
+
         // Initialize object to handel user operatein
         UserManager manager = new UserManager();
         // Try and catch to take care about the input file
@@ -29,9 +25,12 @@ public class Main {
         }
         // Initialize Scanner object to read from user
         Scanner in = new Scanner(System.in);
+
         //Loop to display the menu option
         int ID;
-        String FN,LN, gender,BD,email,phone,allergy, chronic, notes,pw,role,status; 
+        String FN, LN, gender, BD, email, phone, allergy, chronic, notes, pw, role, status;
+        
+        // -----------------------Create/ Update/ Delete Users-----------------
         while (true) {
             System.out.println("\n--- Welcome to Daycare Health-Tracker System ---");
             System.out.println("\n--- MENU ---");
@@ -70,7 +69,7 @@ public class Main {
                     }
                     break;
                 //This option to create new child user 
-                case 2: 
+                case 2:
                     //Take all input informations from the user
                     System.out.print("ID (int): ");
                     ID = Integer.parseInt(in.nextLine());
@@ -95,7 +94,7 @@ public class Main {
                     System.out.print("General notes: ");
                     notes = in.nextLine();
                     //Create new object
-                    User child = new User(ID, "Child",FN, LN,gender, BD,email, phone, pw,allergy,chronic, notes);
+                    User child = new User(ID, "Child", FN, LN, gender, BD, email, phone, pw, allergy, chronic, notes);
                     //attempt to add the new user, if the user already exists will not added
                     if (manager.createUser(child)) {
                         System.out.println("Child created.");
@@ -103,9 +102,9 @@ public class Main {
                         System.out.println("ID already exists!");
                     }
                     break;
-                    
-                    //This option to create sttaf user
-                case 3: 
+
+                //This option to create sttaf user
+                case 3:
                     //Take all input informations from the user
                     System.out.print("ID (int): ");
                     ID = Integer.parseInt(in.nextLine());
@@ -118,7 +117,7 @@ public class Main {
                     System.out.print("Gender: ");
                     gender = in.nextLine();
                     System.out.print("Birth date: ");
-                    BD  = in.nextLine();
+                    BD = in.nextLine();
                     System.out.print("Email: ");
                     email = in.nextLine();
                     System.out.print("Phone: ");
@@ -130,7 +129,7 @@ public class Main {
                     System.out.print("Status: ");
                     status = in.nextLine();
                     //Create new object
-                    User staff = new User(ID, type,FN, LN, gender, BD,email, phone, pw,role, status);
+                    User staff = new User(ID, type, FN, LN, gender, BD, email, phone, pw, role, status);
                     //attempt to add the new user, if the user already exists will not added
                     if (manager.createUser(staff)) {
                         System.out.println("Staff created.");
@@ -139,7 +138,7 @@ public class Main {
                     }
                     break;
                 //This option for update user information   
-                case 4: 
+                case 4:
                     System.out.print("Enter user ID to update: ");
                     int uid = Integer.parseInt(in.nextLine());
                     System.out.print("Field (firstname, lastname, gender, birthdate, email, phone, password, allergyinfo, chronicdiseases, generalnotes, role, status): ");
@@ -154,7 +153,7 @@ public class Main {
                     }
                     break;
                 //This option for delet user
-                case 5: 
+                case 5:
                     System.out.print("Enter user ID to delete: ");
                     int did = Integer.parseInt(in.nextLine());
                     //Attempt to delete the user for the given user ID
@@ -169,28 +168,23 @@ public class Main {
                     System.out.println("Invalid choice.");
             }
         }
-        // nada code
+        // -----------------------Add & Enter Child’s Health Info-----------------
         ChildHealthManager.Database db = new ChildHealthManager.Database();
         ChildHealthManager.NotificationService ns = new ChildHealthManager.NotificationService();
         ChildHealthManager managerr = new ChildHealthManager(db, ns);
-        
+
         ChildHealthManager.ChildHealthData data = new ChildHealthManager.ChildHealthData("child-001", "Has peanut allergy");
-        
+
         String result = managerr.addHealthInfo(data);
 
-        
         System.out.println("Parent Message: " + result);
         System.out.println("Teacher Last Notification: " + ns.getLastNotification());
-        
-                
-        // -----------------------Submit daily/weekly report about the child-----------------
-                ChildReport.writeReport();
 
-        
-    
+        // -----------------------Submit daily/weekly report about the child-----------------
+        ChildReport.writeReport();
+
         // -----------------Communicate with Parent/Teacher-----------------
         // Reham's code
-
         Database database = new Database();
         MessagingSystem system = new MessagingSystem(database);
 
@@ -198,7 +192,9 @@ public class Main {
             System.out.println("\n--- Daycare Messaging System ---");
             System.out.print("Hello, Enter your name (or 'exit' to quit): ");
             String userName = in.nextLine();
-            if (userName.equalsIgnoreCase("exit")) break;
+            if (userName.equalsIgnoreCase("exit")) {
+                break;
+            }
 
             System.out.println(userName + "! What do you want to do?");
             System.out.println("1. Send a message");
@@ -208,20 +204,17 @@ public class Main {
             int choice = Integer.parseInt(in.nextLine());
 
             if (choice == 1) {
-            System.out.print("Enter recipient name: ");
-            String recipient = in.nextLine();
-            System.out.print("Enter your message: ");
-            String content = in.nextLine();
+                System.out.print("Enter recipient name: ");
+                String recipient = in.nextLine();
+                System.out.print("Enter your message: ");
+                String content = in.nextLine();
 
-            system.sendMessage(content, userName, recipient);
-            System.out.println("Message sent successfully!");} 
-
-            else if (choice == 2) {
+                system.sendMessage(content, userName, recipient);
+                System.out.println("Message sent successfully!");
+            } else if (choice == 2) {
                 System.out.println("Messages for " + userName + ":");
                 system.displayMessages(userName);
-            } 
-
-            else if (choice == 3) {
+            } else if (choice == 3) {
                 System.out.println("Logging out...");
                 continue;
             }
@@ -229,5 +222,5 @@ public class Main {
 
         in.close();
     }
-    
+
 }
