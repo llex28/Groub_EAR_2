@@ -117,6 +117,4 @@ public class UserManagerTest {
         boolean updated = manager.updateUserField(9999, "phone", "0501231234");
         assertFalse("Updating non-existing user should return false", updated);
     }
-    
-  
 }
